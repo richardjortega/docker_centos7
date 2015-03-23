@@ -1,0 +1,9 @@
+# Ignoring the following files
+# General ignore
+.DS_Store
+
+# Ignore apps folder because it contains git repos inside
+apps/
+
+# Ignore vagrant main folder as it will be built with vagrant up
+.vagrant/
