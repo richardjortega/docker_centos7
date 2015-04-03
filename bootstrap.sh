@@ -4,7 +4,7 @@ echo -e "\n### START: Provision CentOS 7 x64 with Docker ###\n\n"
 yum update -y
 
 # Install Docker via Yum
-yum install -y docker net-tools
+yum install -y docker net-tools golang
 
 # Updating to Docker latest release
 wget https://get.docker.com/builds/Linux/x86_64/docker-latest -O /usr/bin/docker
