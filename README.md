@@ -11,4 +11,9 @@ This bootstrap bash script will update `yum` to latest, update `docker` to the l
 ```bash
 $ git clone this-project.git
 $ vagrant up
+
+# Log into the VM
+$ vagrant ssh
 ```
+
+
