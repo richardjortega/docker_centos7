@@ -6,3 +6,9 @@ This bootstrap bash script will update `yum` to latest, update `docker` to the l
 #### Instructions
 - Requires `vagrant` on main machine (for development)
 - For production, run only `bootstrap.sh`
+
+### Usage
+```bash
+$ git clone this-project.git
+$ vagrant up
+```
