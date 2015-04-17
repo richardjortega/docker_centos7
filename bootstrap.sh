@@ -32,7 +32,7 @@ echo updating docker to latest release
 wget https://get.docker.com/builds/Linux/x86_64/docker-latest -O /usr/bin/docker >/dev/null 2>&1
 
 echo installing docker-compose
-curl -L https://github.com/docker/compose/releases/download/1.1.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose >/dev/null 2>&1
+curl -L https://github.com/docker/compose/releases/download/1.1.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
 echo adding docker service to systemctl
