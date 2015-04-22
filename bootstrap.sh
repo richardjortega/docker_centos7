@@ -12,12 +12,14 @@ function install {
 echo updating package information
 yum update -y >/dev/null 2>&1
 
-echo installing development tools and docker
-yum install -y docker net-tools golang build-essential vim epel-release  >/dev/null 2>&1
-yum clean all >/dev/null 2>&1
+echo installing development/networking tools and EPEL repos
+yum install -y net-tools build-essential epel-release  >/dev/null 2>&1
 
 # Some of these packages require EPEL repo (added earlier in build)
 # Some packages are installed on base CentOS 7 but have been added to make sure
+install Docker docker
+install Go golang
+install Vim vim
 install Git git
 install SQLite sqlite sqlite-devel
 install Redis redis
@@ -27,13 +29,20 @@ install PostgreSQL postgresql postgresql-devel
 install MariaDB mariadb-server mariadb-devel
 install 'Nokogiri dependencies' libxml2 libxml2-dev libxslt1-dev
 install 'JS runtime' nodejs
+yum clean all >/dev/null 2>&1
 
-echo updating docker to latest release
-wget https://get.docker.com/builds/Linux/x86_64/docker-latest -O /usr/bin/docker >/dev/null 2>&1
+## Docker 1.6 has issue with networking and calling out to Rubygems
+# echo updating docker to latest release
+# wget https://get.docker.com/builds/Linux/x86_64/docker-latest -O /usr/bin/docker
+# chmod +x /usr/bin/docker
 
 echo installing docker-compose
-curl -L https://github.com/docker/compose/releases/download/1.1.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
+
+echo install docker auto-completion
+yum install bash-completion
+wget https://raw.githubusercontent.com/docker/docker/master/contrib/completion/bash/docker -O /etc/bash_completion.d/docker
 
 echo adding docker service to systemctl
 systemctl enable docker.service >/dev/null 2>&1
