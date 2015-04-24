@@ -63,7 +63,8 @@ rpm -iUvh http://yum.postgresql.org/9.3/redhat/rhel-7-x86_64/pgdg-centos93-9.3-1
 yum -y update >/dev/null 2>&1
 yum -y install postgresql93 postgresql93-server postgresql93-contrib postgresql93-libs --disablerepo=* --enablerepo=pgdg93
 /usr/pgsql-9.3/bin/postgresql93-setup initdb
-systemctl enable postgresql-9.3
 su - vagrant -c 'bundle config build.pg --with-pg-config=/usr/pgsql-9.3/bin/pg_config'
+systemctl enable postgresql-9.3
+systemctl start postgresql-9.3
 
 echo -e "\n### Provisioned. Use 'vagrant ssh' to access the VM directly. ###\n\n"
