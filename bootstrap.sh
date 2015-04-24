@@ -27,7 +27,7 @@ install memcached memcached
 install RabbitMQ rabbitmq-server
 
 install MariaDB mariadb-server mariadb-devel
-install 'Nokogiri/PostgreSQL dependencies' libxml2 libxml2-dev libxslt1-dev libxslt uuid
+install 'Nokogiri/PostgreSQL dependencies' libxml2 libxml2-dev libxslt1-dev libxslt uuid libpqxx-devel
 install 'JS runtime' nodejs
 yum clean all >/dev/null 2>&1
 
@@ -48,13 +48,6 @@ echo adding docker service to systemctl
 systemctl enable docker.service >/dev/null 2>&1
 systemctl start docker.service >/dev/null 2>&1
 
-echo installing Postgresql 9.3.1
-rpm -iUvh http://yum.postgresql.org/9.3/redhat/rhel-7-x86_64/pgdg-centos93-9.3-1.noarch.rpm >/dev/null 2>&1
-yum -y update >/dev/null 2>&1
-yum -y install postgresql93 postgresql93-server postgresql93-contrib postgresql93-libs --disablerepo=* --enablerepo=pgdg93
-/usr/pgsql-9.3/bin/postgresql93-setup initdb
-systemctl enable postgresql-9.3
-
 echo installing Ruby 2.2.2 via RVM
 su - vagrant -c 'gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3' >/dev/null 2>&1
 su - vagrant -c 'curl -sSL https://get.rvm.io | bash -s stable --ruby=2.2.2' >/dev/null 2>&1
@@ -64,5 +57,13 @@ su - vagrant -c 'source /home/vagrant/.rvm/scripts/rvm'
 
 echo installing bundler
 su - vagrant -c 'gem install bundler'
+
+echo installing Postgresql 9.3.1
+rpm -iUvh http://yum.postgresql.org/9.3/redhat/rhel-7-x86_64/pgdg-centos93-9.3-1.noarch.rpm >/dev/null 2>&1
+yum -y update >/dev/null 2>&1
+yum -y install postgresql93 postgresql93-server postgresql93-contrib postgresql93-libs --disablerepo=* --enablerepo=pgdg93
+/usr/pgsql-9.3/bin/postgresql93-setup initdb
+systemctl enable postgresql-9.3
+su - vagrant -c 'bundle config build.pg --with-pg-config=/usr/pgsql-9.3/bin/pg_config'
 
 echo -e "\n### Provisioned. Use 'vagrant ssh' to access the VM directly. ###\n\n"
