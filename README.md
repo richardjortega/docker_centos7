@@ -39,6 +39,11 @@ $ vagrant up
 
 # Log into dev box
 $ vagrant ssh
+
+# After following "Post-install modifications" run the following
+vagrant: $ su root
+# Enter `vagrant` as password for `root`
+root: $ docker-compose up
 ```
 
 ### Synced Folders
@@ -47,6 +52,47 @@ Synced folder resides at: `/vagrant`
 
 Recommended to create a folder called `apps` in this folder as it is already added to `.gitignore` that will sync to the VM. Store your repos or other items here.
 - If you create an `apps` folder here, you can find it at `/vagrant/apps`
+
+
+### Useful Docker Commands
+All commands should be run from `root` user.
+
+Quick Docker Reference:
+  -
+
+
+#### Standard Workflow:
+Assumes you have a `Dockerfile` in your current folder
+- Build an image (current directory)
+  - `$ docker build -t <tag_name> .`
+- Run a container (an instance of an image)
+
+```bash
+$ docker run -it --rm tag_name/imageID COMMAND
+```
+
+- Run multi-containers with `docker-compose`
+
+Containers
+```bash
+
+# Run a container with
+
+# Stop all containers and remove all containers
+$ docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
+```
+
+Images
+```bash
+# View all Docker images
+$ docker images
+
+# Remove all Docker images
+$ docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
+
+# Remove Docker image by Image ID
+$
+```
 
 ### Post-install modifications
 If you need root priveleges, the password for `root` is `vagrant`.
