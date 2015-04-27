@@ -27,7 +27,14 @@ install Redis redis
 systemctl enable redis
 systemctl start redis
 
-install 'Nokogiri/PostgreSQL dependencies' libxml2 libxml2-dev
+echo install and setup NTP
+install NTP ntp
+# Update NTP server from 'centos' to 'us'
+sed -i.bak -e s/centos/us/g /etc/ntp.conf
+systemctl enable ntpd
+systemctl start ntpd
+
+install 'Nokogiri' libxml2 libxml2-dev
 install 'JS runtime' nodejs
 yum clean all >/dev/null 2>&1
 

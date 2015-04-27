@@ -15,6 +15,8 @@
 - SQLite3
 - Redis
 - NodeJS
+- NTP
+  - Reconfigured to `us.pool.ntp.org`
 
 ### Getting Started
 - Install Vagrant at https://www.vagrantup.com/
