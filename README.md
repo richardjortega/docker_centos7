@@ -3,6 +3,9 @@
 ### Contains
 - CentOS 7.1
   - Uses OpsCode Vagrant box: https://github.com/chef/bento
+  - 40 GB dynamic size
+  - 2 CPUs
+  - 2 GB RAM
 - Ruby 2.2.2 via RVM
 - PostgreSQL
 - Docker and Docker Compose
