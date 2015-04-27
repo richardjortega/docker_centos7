@@ -1,7 +1,8 @@
 ## Swiftwater Development Environment
 
 ### Contains
-- CentOS 7
+- CentOS 7.1
+  - Uses OpsCode Vagrant box: https://github.com/chef/bento
 - Ruby 2.2.2 via RVM
 - PostgreSQL
 - Docker and Docker Compose
@@ -35,7 +36,18 @@ $ vagrant up
 $ vagrant ssh
 ```
 
+### Synced Folders
+- Synced folder resides at: `/vagrant`
+  - Vagrant will sync all files/folders in this directory to `/vagrant`
+- Recommended to create a folder called `apps` in this folder as it is already added to `.gitignore` that will sync to the VM. Store your repos or other items here.
+  - If you create an `apps` folder here, you can find it at `/vagrant/apps`
+
+
+Files/folders are synced over `rsync` from where Vagrantfile
+
 ### Post-install modifications
+If you need root priveleges, the password for `root` is `vagrant`.
+
 If you need to use a RDBMS you'll need to modify PostgreSQL for a new user and allow connections via passwords
 ```bash
 $ sudo vi /var/lib/pgsql/data/pg_hba.conf
