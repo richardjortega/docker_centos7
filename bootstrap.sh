@@ -69,9 +69,21 @@ echo installing Postgresql 9.2
 yum -y install postgresql-server postgresql-contrib postgresql-devel >/dev/null 2>&1
 postgresql-setup initdb
 
-# Update PostgreSQL to accept password auth
-cp /vagrant/provision/pg_hba.conf /var/lib/pgsql/data/pg_hba.conf
+PG_CONF="/var/lib/pgsql/data/postgresql.conf"
+PG_HBA="/var/lib/pgsql/data/pg_hba.conf"
+# Edit postgresql.conf to change listen address to '*':
+sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" "$PG_CONF"
+# Append to pg_hba.conf to add password auth:
+echo "host    all             all             all                     md5" >> "$PG_HBA"
+# Explicitly set default client_encoding
+echo "client_encoding = utf8" >> "$PG_CONF"
+source /var/lib/pgsql/data/postgresql.conf
 source /var/lib/pgsql/data/pg_hba.conf
+
+cat << EOF | su - postgres -c psql
+-- Create the database user:
+CREATE USER root WITH PASSWORD 'wiirocG2';
+EOF
 
 systemctl enable postgresql
 systemctl start postgresql
