@@ -73,52 +73,37 @@ $ docker run -it --rm tag_name/imageID COMMAND
 
 - Run multi-containers with `docker-compose`
 
-Containers
-```bash
-
-# Run a container with
-
-# Stop all containers and remove all containers
-$ docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
-```
-
-Images
-```bash
-# View all Docker images
-$ docker images
-
-# Remove all Docker images
-$ docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
-
-# Remove Docker image by Image ID
-$
-```
+#### Docker Cheat Sheet
+https://github.com/wsargent/docker-cheat-sheet
 
 ### Post-install modifications
+#### Root info
 If you need root priveleges, the password for `root` is `vagrant`.
 
+#### PostgreSQL information
 If you need to use a RDBMS you'll need to modify PostgreSQL for a new user and allow connections via passwords
+
+##### Setup user with password
+First get switch to user `root`
 ```bash
-$ sudo vi /var/lib/pgsql/data/pg_hba.conf
+$ su root
 ```
 
-Find the lines that looks like this, near the bottom of the file:
-
-**pg_hba.conf excerpt** (original)
+Then switch to user `postgres`
 ```bash
-# IPv4 local connections:
-host    all             all             127.0.0.1/32            ident
-# IPv6 local connections:
-host    all             all             ::1/128                 ident
+$ su postgres
 ```
-Then replace *ident* with *md5*, so they look like this:
 
-**pg_hba.conf excerpt** (updated)
+Create user in PostgreSQL with `root` with a password
 ```bash
-# IPv4 local connections:
-host    all             all             127.0.0.1/32            md5
-# IPv6 local connections:
-host    all             all             ::1/128                 md5
+bash-4.2$ createuser --superuser --pwprompt root
+
+# Type password, then exit to switch back to vagrant user
+```
+
+Setup database
+```bash
+$ rake db:setup
 ```
 
 ### Notes

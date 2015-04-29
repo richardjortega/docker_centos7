@@ -68,7 +68,13 @@ su - vagrant -c 'gem install bundler'
 echo installing Postgresql 9.2
 yum -y install postgresql-server postgresql-contrib postgresql-devel >/dev/null 2>&1
 postgresql-setup initdb
+
+# Update PostgreSQL to accept password auth
+cp /vagrant/provision/pg_hba.conf /var/lib/pgsql/data/pg_hba.conf
+source /var/lib/pgsql/data/pg_hba.conf
+
 systemctl enable postgresql
 systemctl start postgresql
+
 
 echo -e "\n### Provisioned. Use 'vagrant ssh' to access the VM directly. ###\n\n"
