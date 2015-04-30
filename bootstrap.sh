@@ -21,6 +21,7 @@ install Docker docker
 install Go golang
 install Vim vim
 install Git git
+install Tmux tmux
 install SQLite sqlite sqlite-devel
 
 install Redis redis

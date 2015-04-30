@@ -15,6 +15,7 @@
 - SQLite3
 - Redis
 - NodeJS
+- Tmux
 - NTP
   - Reconfigured to `us.pool.ntp.org`
 
