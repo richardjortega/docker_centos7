@@ -25,7 +25,7 @@
 - Install VirtualBox plugins for Vagrant (on your host OS)
   - `$ vagrant plugin install vagrant-vbguest`
 
-TODO: System will automatically spin up everything once the VM is started.
+TODO: System will automatically spin up everything once the VM is started. xxx
 
 ### Setup Instructions
 
