@@ -22,6 +22,16 @@ install Go golang
 install Vim vim
 install Git git
 install Tmux tmux
+
+# Firewall settings for HTTP/HTTPS
+firewall-cmd --permanent --zone=public --add-service=http
+firewall-cmd --permanent --zone=public --add-service=https
+firewall-cmd --reload
+
+install NGINX nginx
+systemctl enable nginx
+systemctl start nginx
+
 install SQLite sqlite sqlite-devel
 
 install Redis redis

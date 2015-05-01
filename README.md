@@ -8,6 +8,10 @@
   - 2 GB RAM
 - Ruby 2.2.2 via RVM
 - PostgreSQL
+  - Databases created:
+    - `swiftwater_production`
+    - `swiftwater_dev`
+    - `swiftwater_test`
 - Docker and Docker Compose
 - Vim
 - Go
