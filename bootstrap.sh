@@ -24,25 +24,26 @@ install Git git
 install Tmux tmux
 
 # Firewall settings for HTTP/HTTPS
-firewall-cmd --permanent --zone=public --add-service=http
-firewall-cmd --permanent --zone=public --add-service=https
-firewall-cmd --reload
+# Firewalld not enabled, if enabled please uncomment these
+# firewall-cmd --permanent --zone=public --add-service=http
+# firewall-cmd --permanent --zone=public --add-service=https
+# firewall-cmd --reload
 
 install NGINX nginx
-systemctl enable nginx
+systemctl enable nginx >/dev/null 2>&1
 systemctl start nginx
 
 install SQLite sqlite sqlite-devel
 
 install Redis redis
-systemctl enable redis
+systemctl enable redis >/dev/null 2>&1
 systemctl start redis
 
 echo install and setup NTP
 install NTP ntp
 # Update NTP server from 'centos' to 'us'
 sed -i.bak -e s/centos/us/g /etc/ntp.conf
-systemctl enable ntpd
+systemctl enable ntpd >/dev/null 2>&1
 systemctl start ntpd
 
 install 'Nokogiri' libxml2 libxml2-dev
@@ -55,15 +56,15 @@ yum clean all >/dev/null 2>&1
 # chmod +x /usr/bin/docker
 
 echo installing docker-compose
-curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+curl -L --silent https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
 echo install docker auto-completion
-yum install bash-completion
-wget https://raw.githubusercontent.com/docker/docker/master/contrib/completion/bash/docker -O /etc/bash_completion.d/docker
+yum install bash-completion >/dev/null 2>&1
+wget --quiet https://raw.githubusercontent.com/docker/docker/master/contrib/completion/bash/docker -O /etc/bash_completion.d/docker
 
 echo adding docker service to systemctl
-systemctl enable docker.service
+systemctl enable docker.service >/dev/null 2>&1
 systemctl start docker.service
 
 echo installing Ruby 2.2.2 via RVM
@@ -74,11 +75,13 @@ su - vagrant -c 'source /home/vagrant/.profile'
 su - vagrant -c 'source /home/vagrant/.rvm/scripts/rvm'
 
 echo installing bundler
-su - vagrant -c 'gem install bundler'
+su - vagrant -c 'gem install bundler' >/dev/null 2>&1
 
 echo installing Postgresql 9.2
 yum -y install postgresql-server postgresql-contrib postgresql-devel >/dev/null 2>&1
-postgresql-setup initdb
+systemctl enable postgresql >/dev/null 2>&1
+systemctl start postgresql
+postgresql-setup initdb >/dev/null 2>&1
 
 PG_CONF="/var/lib/pgsql/data/postgresql.conf"
 PG_HBA="/var/lib/pgsql/data/pg_hba.conf"
@@ -90,14 +93,11 @@ echo "host    all             all             all                     md5" >> "$
 echo "client_encoding = utf8" >> "$PG_CONF"
 source /var/lib/pgsql/data/postgresql.conf
 source /var/lib/pgsql/data/pg_hba.conf
+systemctl restart postgresql >/dev/null 2>&1
 
 cat << EOF | su - postgres -c psql
 -- Create the database user:
 CREATE USER root WITH PASSWORD 'wiirocG2';
 EOF
-
-systemctl enable postgresql
-systemctl start postgresql
-
 
 echo -e "\n### Provisioned. Use 'vagrant ssh' to access the VM directly. ###\n\n"
