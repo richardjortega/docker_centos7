@@ -81,7 +81,7 @@ echo installing Postgresql 9.2
 yum -y install postgresql-server postgresql-contrib postgresql-devel >/dev/null 2>&1
 systemctl enable postgresql >/dev/null 2>&1
 systemctl start postgresql
-postgresql-setup initdb >/dev/null 2>&1
+su - postgres -c 'postgresql-setup initdb' >/dev/null 2>&1
 
 PG_CONF="/var/lib/pgsql/data/postgresql.conf"
 PG_HBA="/var/lib/pgsql/data/pg_hba.conf"
